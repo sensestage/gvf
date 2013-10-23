@@ -1,0 +1,26 @@
+/// OSC NAMESPACE
+
+
+/gvf/create, "ii", follower id, dimensions 	: create a gesture follower with an identifier
+
+/gvf/save, "is", follower id, filename 		: save vocabulary to file
+/gvf/load, "is", follower id, filename 		: load vocabulary from file
+
+/gvf/tolerance, "if", follower id, tolerance
+/gvf/particles, "ii", follower id, number of particles
+/gvf/resamplingthreshold, "if", follower id, resampling threshold
+/gvf/spreadingmeans, "iff..f", follower id, spreading means
+/gvf/spreadingranges, "iff..f", follower id, spreading ranges
+/gvf/adaptationspeed, "iff..f", follower id, adaptation speed
+/gvf/translate, "ii", follower id, translate on/off
+
+/gesture/newdata, "iff..f", follower id, N floats : new data for gesture
+
+/gesture/learn, "i", follower id 		: learn a new gesture
+/gesture/learn, "ii", follower id, gesture id 	: relearn an old gesture
+
+/gesture/follow, "i", follower id 		: follow mode
+/gesture/restart, "i", follower id 		: restart tracking
+
+/gesture/clear, "i", follower id		: clear all gestures
+/gesture/clear, "ii", follower id, gesture id	: clear one gesture
