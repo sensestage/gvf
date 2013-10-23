@@ -1,5 +1,8 @@
 /// OSC NAMESPACE
 
+/// listening to:
+
+/gvfosc/quit					: exit the gesture follower
 
 /gvf/create, "ii", follower id, dimensions 	: create a gesture follower with an identifier
 
@@ -14,7 +17,7 @@
 /gvf/adaptationspeed, "iff..f", follower id, adaptation speed
 /gvf/translate, "ii", follower id, translate on/off
 
-/gesture/newdata, "iff..f", follower id, N floats : new data for gesture
+/gesture/data, "iff..f", follower id, N floats : new data for gesture
 
 /gesture/learn, "i", follower id 		: learn a new gesture
 /gesture/learn, "ii", follower id, gesture id 	: relearn an old gesture
@@ -24,3 +27,15 @@
 
 /gesture/clear, "i", follower id		: clear all gestures
 /gesture/clear, "ii", follower id, gesture id	: clear one gesture
+
+
+
+/// sending:
+
+/gvfosc/started					: program started
+/gvfosc/quit					: program quit
+
+messages:
+../succes
+../error
+
