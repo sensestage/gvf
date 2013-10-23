@@ -36,7 +36,7 @@ typedef struct _gvf {
 	t_int state;
 	t_int lastreferencelearned;
     t_int currentToBeLearned;
-    std::map<int,std::vector<std::pair<float,float> > > *refmap;
+//     std::map<int,std::vector<std::pair<float,float> > > *refmap;
 	t_int Nspg, Rtpg;
 	t_float sp, sv, sr, ss, so; // pos,vel,rot,scal,observation
 	t_int pdim;
@@ -93,7 +93,7 @@ static void *gvf_new(t_symbol *s, int argc, t_atom *argv)
     Eigen::VectorXf sigs(x->pdim);
     sigs << x->sp, x->sv, x->ss, x->sr;
     
-    x->refmap = new std::map<int,std::vector<std::pair<float,float> > >;
+//     x->refmap = new std::map<int,std::vector<std::pair<float,float> > >;
     //x->refmap.clear();
 
     int num_particles = 2000;
@@ -135,8 +135,8 @@ static void gvf_destructor(t_gvf *x)
     //post("gvf destructor...");
     if(x->bubi != NULL)
         delete x->bubi;
-    if(x->refmap != NULL)
-        delete x->refmap;
+//     if(x->refmap != NULL)
+//         delete x->refmap;
     //post("destructor complete");
 }
 
@@ -300,31 +300,33 @@ static void gvf_data(t_gvf *x,const t_symbol *sss,int argc, t_atom *argv)
         
         t_atom *outAtoms = new t_atom[statu.rows()];
         // de-refed. may be wrong.
+	// phase
         for(int j = 0; j < statu.rows(); j++)
             SETFLOAT(&outAtoms[j],statu(j,0));
         outlet_list(x->Position, &s_list, statu.rows(), outAtoms);
         delete[] outAtoms;
         
         outAtoms = new t_atom[statu.rows()];
+	// speed
         for(int j = 0; j < statu.rows(); j++)
             SETFLOAT(&outAtoms[j],statu(j,1));
         outlet_list(x->Vitesse, &s_list, statu.rows(), outAtoms);
         delete[] outAtoms;
         
         outAtoms = new t_atom[statu.rows()];
+	// scaling
         for(int j = 0; j < statu.rows(); j++)
             SETFLOAT(&outAtoms[j],statu(j,2));
         outlet_list(x->Rotation, &s_list, statu.rows(), outAtoms);
         delete[] outAtoms;
         
         outAtoms = new t_atom[statu.rows()];
+	// rotation
         for(int j = 0; j < statu.rows(); j++)
             SETFLOAT(&outAtoms[j],statu(j,3));
         outlet_list(x->Scaling, &s_list, statu.rows(), outAtoms);
         delete[] outAtoms;
-        
-        
-        
+
         Eigen::VectorXf gprob = x->bubi->getGestureConditionnalProbabilities();
         float probmaxsofar=-1;
         int probmaxsofarindex=-1;
@@ -343,7 +345,7 @@ static void gvf_data(t_gvf *x,const t_symbol *sss,int argc, t_atom *argv)
         
         outAtoms = new t_atom[gprob.size()];
         for(int j = 0; j < gprob.size(); j++)
-            SETFLOAT(&outAtoms[j],gprob(j,0));
+            SETFLOAT(&outAtoms[j],gprob(j,0)); // why (j,0)?
         outlet_list(x->Likelihoods, &s_list, gprob.size(), outAtoms);
         delete[] outAtoms;
         
