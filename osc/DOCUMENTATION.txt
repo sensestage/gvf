@@ -35,6 +35,8 @@
 /gvfosc/started					: program started
 /gvfosc/quit					: program quit
 
+/gesture/estimation
+
 messages:
 ../succes
 ../error

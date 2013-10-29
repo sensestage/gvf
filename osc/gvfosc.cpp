@@ -313,17 +313,24 @@ void sendEstimation( int id ){
       lo_message m = lo_message_new();
       lo_message_add_int32( m, id ); // follower
       lo_message_add_int32( m, j );  // gesture
-      lo_message_add_float( m, gprob( j ) ); // probability
+//       lo_message_add_float( m, gprob( j, 0 ) ); // probability
       // iterate over other dimensions:
       for ( int k=0; k<statu.cols(); k++ ){
 	lo_message_add_float( m, statu(j,k) );      
       }
       lo_bundle_add_message( b, "/gesture/estimation", m );      
     }
+    lo_message m = lo_message_new();
+    lo_message_add_int32( m, id ); // follower
+   for(int j = 0; j < statu.rows(); j++){
+      lo_message_add_float( m, gprob( j, 0 ) ); // probability
+      // iterate over other dimensions:      
+    }
+    lo_bundle_add_message( b, "/gesture/probabilities", m );      
     if ( lo_send_bundle_from( t, s, b )  == -1 ){
 	printf("gesture update: OSC error %d: %s\n", lo_address_errno(t), lo_address_errstr(t) );
     }
-    lo_bundle_free_messages(b);
+//     lo_bundle_free_messages(b);
     lo_bundle_free(b);
 }
 
